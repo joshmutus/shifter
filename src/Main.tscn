@@ -1,0 +1,198 @@
+[gd_scene load_steps=16 format=3 uid="uid://du7hlwjl6vw6l"]
+
+[ext_resource type="Script" path="res://src/Knob.cs" id="1_ir12o"]
+[ext_resource type="Texture2D" uid="uid://b4enkdixw4qut" path="res://shifter.png" id="1_siy1h"]
+[ext_resource type="Script" path="res://src/truck.gd" id="3_i18hy"]
+[ext_resource type="Script" path="res://src/round_wheel.gd" id="4_xahcd"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2hqma"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ohjo7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wybxv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_siy1h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6t8xo"]
+radius = 45.0
+
+[sub_resource type="Curve" id="Curve_xgf22"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.673184, 0.792), 0.0, 0.0, 0, 0, Vector2(0.743017, 0.12), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j3pq5"]
+size = Vector2(7.07007, 78.1267)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhyht"]
+size = Vector2(7.07005, 50.593)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f6tta"]
+radius = 4.24265
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_exk3f"]
+friction = 0.7
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vxu86"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s4vmu"]
+size = Vector2(180, 132)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-7, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(60.9999, 796)
+scale = Vector2(10, 10)
+shape = SubResource("WorldBoundaryShape2D_2hqma")
+
+[node name="terrain2" type="CollisionPolygon2D" parent="Floor"]
+modulate = Color(0.227451, 0.203922, 1, 1)
+material = SubResource("CanvasItemMaterial_ohjo7")
+position = Vector2(-2021, 232)
+scale = Vector2(2.21366, 1.33398)
+build_mode = 1
+polygon = PackedVector2Array(-176.573, 644.413, 753, 729, 982.99, 739.141, 1326.76, 736.143, 1752.31, 741.39, 1856.21, 664.927, 1970.95, 667.926, 2070.33, 704.658, 2152, 697, 2152, 697, 2152, 697, 2465.66, 741.866, 2699.21, 773.351, 2992.85, 653.409, 3062.81, 715.902, 3128.37, 660.905, 3221.37, 700.16, 3310.42, 672.15, 3390.32, 696.412, 3486.15, 663.904, 3573.28, 706.157, 3679.04, 687.143, 3754.93, 770.352, 5808.94, 778.872, 6154.07, 700.16, 6144.59, 964.782, 5906.13, 990.745, 2859.13, 1013.23, 490.649, 1041.72, -188.77, 1041.72)
+
+[node name="terrain" type="Polygon2D" parent="Floor"]
+visible = false
+position = Vector2(-1884, -201)
+scale = Vector2(2.21366, 1.33398)
+polygon = PackedVector2Array(-176.573, 644.413, 751.246, 733.894, 1327.22, 736.143, 1770.43, 796.59, 1974, 466, 2101, 841, 2152, 697, 2152, 697, 2152, 697, 2465.66, 741.866, 2699.21, 773.351, 2992.85, 653.409, 3069.19, 771.852, 3128.37, 660.905, 3227.75, 774.85, 3310.42, 672.15, 3391.28, 767.354, 3486.15, 663.904, 3570.17, 803.336, 3679.04, 687.143, 3754.93, 770.352, 5948.14, 810.083, 5906.13, 990.745, 2859.13, 1013.23, 490.649, 1041.72, -188.77, 1041.72)
+
+[node name="knob" type="Area2D" parent="."]
+position = Vector2(5, 6)
+script = ExtResource("1_ir12o")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="knob"]
+position = Vector2(375.75, 377.074)
+scale = Vector2(0.116921, 0.116921)
+sprite_frames = SubResource("SpriteFrames_wybxv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="knob"]
+position = Vector2(380, 382)
+shape = SubResource("CircleShape2D_6t8xo")
+
+[node name="truck" type="RigidBody2D" parent="."]
+position = Vector2(-12, -3)
+script = ExtResource("3_i18hy")
+clutch_curve = SubResource("Curve_xgf22")
+metadata/_edit_group_ = true
+
+[node name="engine" type="Node2D" parent="truck"]
+z_index = 1
+position = Vector2(62, 634)
+rotation = 0.802463
+metadata/_edit_group_ = true
+
+[node name="static_pin" type="RigidBody2D" parent="truck/engine"]
+position = Vector2(0.675712, 39.5922)
+rotation = -2.37533
+collision_layer = 2
+collision_mask = 2
+gravity_scale = 0.0
+
+[node name="ColorRect" type="ColorRect" parent="truck/engine/static_pin"]
+offset_right = 7.0
+offset_bottom = 78.0
+
+[node name="ColorRect2" type="CollisionShape2D" parent="truck/engine/static_pin"]
+position = Vector2(3.5351, 38.9427)
+shape = SubResource("RectangleShape2D_j3pq5")
+
+[node name="rpm_pin" type="RigidBody2D" parent="truck/engine"]
+position = Vector2(-3.59041, 38.2506)
+collision_layer = 2
+collision_mask = 2
+gravity_scale = 0.0
+
+[node name="ColorRect" type="ColorRect" parent="truck/engine/rpm_pin"]
+offset_right = 7.0
+offset_bottom = 52.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="truck/engine/rpm_pin"]
+position = Vector2(3.49661, 26.2545)
+shape = SubResource("RectangleShape2D_xhyht")
+
+[node name="speedo_pin" type="PinJoint2D" parent="truck/engine"]
+position = Vector2(0, 40)
+node_a = NodePath("../static_pin")
+node_b = NodePath("../rpm_pin")
+
+[node name="bumper" type="RigidBody2D" parent="truck/engine"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="truck/engine/bumper"]
+shape = SubResource("CircleShape2D_f6tta")
+
+[node name="rear_wheel" type="RigidBody2D" parent="truck"]
+position = Vector2(-56, 722)
+physics_material_override = SubResource("PhysicsMaterial_exk3f")
+script = ExtResource("4_xahcd")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="truck/rear_wheel"]
+scale = Vector2(5, 5)
+shape = SubResource("CircleShape2D_vxu86")
+
+[node name="front_wheel" type="RigidBody2D" parent="truck"]
+position = Vector2(120, 726)
+physics_material_override = SubResource("PhysicsMaterial_exk3f")
+script = ExtResource("4_xahcd")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="truck/front_wheel"]
+scale = Vector2(5, 5)
+shape = SubResource("CircleShape2D_vxu86")
+
+[node name="front_axel" type="PinJoint2D" parent="truck"]
+position = Vector2(120, 726)
+node_a = NodePath("../body")
+node_b = NodePath("../front_wheel")
+
+[node name="body" type="RigidBody2D" parent="truck"]
+position = Vector2(-56, 595)
+
+[node name="Camera2D" type="Camera2D" parent="truck/body"]
+position = Vector2(176, 131)
+
+[node name="ColorRect" type="ColorRect" parent="truck/body"]
+offset_right = 179.0
+offset_bottom = 133.0
+color = Color(0.388235, 0.160784, 0.509804, 1)
+
+[node name="ColorRect2" type="CollisionShape2D" parent="truck/body"]
+position = Vector2(89, 67)
+shape = SubResource("RectangleShape2D_s4vmu")
+
+[node name="rear_axel" type="PinJoint2D" parent="truck"]
+position = Vector2(-56, 722)
+node_a = NodePath("../body")
+node_b = NodePath("../rear_wheel")
+
+[node name="sp1" type="PinJoint2D" parent="truck"]
+position = Vector2(103, 658)
+node_a = NodePath("../engine/static_pin")
+node_b = NodePath("../body")
+
+[node name="sp2" type="PinJoint2D" parent="truck"]
+position = Vector2(55, 658)
+node_a = NodePath("../engine/static_pin")
+node_b = NodePath("../body")
+
+[node name="bumper_pin" type="PinJoint2D" parent="truck"]
+position = Vector2(62, 634)
+node_a = NodePath("../engine/bumper")
+node_b = NodePath("../body")
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="."]
